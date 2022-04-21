@@ -1,0 +1,17 @@
+server:
+  port: 10010
+
+## database config
+phoebe:
+  database:
+    ip: 127.0.0.1
+    port: 3306
+    username: root
+    password: 123456
+
+spring:
+  datasource:
+    url: jdbc:mysql://${phoebe-database-ip}:${phoebe-database-port}/phoebe?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull
+    username: ${phoebe-database-username}
+    password: ${phoebe-database-password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
