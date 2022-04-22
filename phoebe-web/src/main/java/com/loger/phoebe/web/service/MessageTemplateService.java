@@ -1,7 +1,7 @@
 package com.loger.phoebe.web.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.loger.phoebe.support.domain.MessageTemplate;
-import org.springframework.stereotype.Service;
 
 /**
  * @author chao
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * @date 2022/4/21 13:05
  * @description:
  */
-public interface MessageTemplateService {
+public interface MessageTemplateService extends IService<MessageTemplate> {
 
     /**
      * 单个 保存或者更新
@@ -18,9 +18,8 @@ public interface MessageTemplateService {
      * @param messageTemplate
      * @return
      */
+    @Override
     boolean saveOrUpdate(MessageTemplate messageTemplate);
-
-
 
 
 }

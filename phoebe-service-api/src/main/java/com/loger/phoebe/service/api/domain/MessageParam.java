@@ -1,6 +1,5 @@
 package com.loger.phoebe.service.api.domain;
 
-import com.oracle.webservices.internal.api.databinding.DatabindingMode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

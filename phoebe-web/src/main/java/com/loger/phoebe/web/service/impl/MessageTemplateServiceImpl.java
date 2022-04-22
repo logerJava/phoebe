@@ -2,13 +2,14 @@ package com.loger.phoebe.web.service.impl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.loger.phoebe.common.constant.PhoebeConstant;
-import com.loger.phoebe.common.enums.PhoebeStatus;
 import com.loger.phoebe.common.enums.MessageStatus;
+import com.loger.phoebe.common.enums.PhoebeStatus;
 import com.loger.phoebe.support.dao.MessageTemplateDao;
 import com.loger.phoebe.support.domain.MessageTemplate;
 import com.loger.phoebe.web.service.MessageTemplateService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,11 +19,9 @@ import org.springframework.stereotype.Service;
  * @date 2022/4/21 13:38
  * @description:
  */
+@Slf4j
 @Service
-public class MessageTemplateServiceImpl implements MessageTemplateService {
-
-    @Autowired
-    private MessageTemplateDao messageTemplateDao;
+public class MessageTemplateServiceImpl extends ServiceImpl<MessageTemplateDao, MessageTemplate> implements MessageTemplateService {
 
     @Override
     public boolean saveOrUpdate(MessageTemplate messageTemplate) {
@@ -31,10 +30,9 @@ public class MessageTemplateServiceImpl implements MessageTemplateService {
         }else{
             resetStatus(messageTemplate);
         }
-
         messageTemplate.setUpdated(Math.toIntExact(DateUtil.currentSeconds()));
 
-        return messageTemplateDao.saveOrUpdate(messageTemplate);
+        return super.saveOrUpdate(messageTemplate);
     }
 
     /**
@@ -53,10 +51,9 @@ public class MessageTemplateServiceImpl implements MessageTemplateService {
     private void initStatus(MessageTemplate messageTemplate) {
         messageTemplate.setFlowId(StrUtil.EMPTY)
                 .setMsgStatus(MessageStatus.INIT.getCode()).setAuditStatus(PhoebeStatus.WAIT_AUDIT.getCode())
-                .setCreator("Java3y").setUpdator("Java3y").setTeam("公众号Java3y").setAuditor("3y")
+                .setCreator("loger").setUpdator("loger").setTeam("loger").setAuditor("loger")
                 .setCreated(Math.toIntExact(DateUtil.currentSeconds()))
                 .setIsDeleted(PhoebeConstant.FALSE);
-
     }
 
 

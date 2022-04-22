@@ -1,7 +1,6 @@
 package com.loger.phoebe.support.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.loger.phoebe.support.domain.MessageTemplate;
 
 /**
@@ -11,5 +10,5 @@ import com.loger.phoebe.support.domain.MessageTemplate;
  * @date 2022/4/21 13:39
  * @description:
  */
-public interface MessageTemplateDao extends IService<MessageTemplate> {
+public interface MessageTemplateDao extends BaseMapper<MessageTemplate> {
 }

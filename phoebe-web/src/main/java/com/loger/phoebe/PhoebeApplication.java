@@ -1,5 +1,6 @@
 package com.loger.phoebe;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @description:
  */
 @SpringBootApplication
+@MapperScan(basePackages = {"com.loger.phoebe.support.dao"})
 public class PhoebeApplication {
     public static void main(String[] args) {
         SpringApplication.run(PhoebeApplication.class, args);
