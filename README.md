@@ -18,4 +18,17 @@ phoebe 中译为 福柏 , 是古希腊神话中的光亮女神, 拥有神谕的�
 
 ## 核心流程
 
+目前暂定
 ![phoebe核心流程.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e4042fff5729417585be589f45087ed8~tplv-k3u1fbpfcp-watermark.image?)
+
+## 涉及技术
+
+- SpringBoot
+- Nacos
+- Sentinel (或用 Redis 限流算法实现)
+- MyBatis-Plus
+- Redis
+- RocketMQ
+- ELK (ElasticSearch + Logstash + Kibana) 视后续情况考虑添加 Filebeat
+- 各类服务商 SDK or API (钉钉, Email, 短信, JPush......)
+- ......
