@@ -18,4 +18,4 @@ phoebe 中译为 福柏 , 是古希腊神话中的光亮女神, 拥有神谕的�
 
 ## 核心流程
 
-![核心流程](https://github.com/logerJava/phoebe/blob/master/pic/phoebe%E6%A0%B8%E5%BF%83%E6%B5%81%E7%A8%8B.png)
+![phoebe核心流程.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e4042fff5729417585be589f45087ed8~tplv-k3u1fbpfcp-watermark.image?)
