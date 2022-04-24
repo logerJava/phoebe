@@ -14,6 +14,7 @@
         <module>phoebe-common</module>
         <module>phoebe-web</module>
         <module>phoebe-support</module>
+        <module>phoebe-handler</module>
     </modules>
 
     <parent>
