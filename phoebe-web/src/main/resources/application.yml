@@ -8,6 +8,8 @@ phoebe:
     port: 3306
     username: root
     password: 123456
+  business:
+    topicName: phoebeBusiness
 
 spring:
   datasource:
@@ -21,3 +23,8 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: phoebe-business

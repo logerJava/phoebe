@@ -16,8 +16,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class AfterParamCheckAction implements BusinessProcess<SendTaskModel> {
+
+
     @Override
     public void process(ProcessContext<SendTaskModel> context) {
         log.info("后置参数检查 ...");
     }
+
+
 }
