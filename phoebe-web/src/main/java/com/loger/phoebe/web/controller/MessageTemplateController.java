@@ -14,6 +14,7 @@ import com.loger.phoebe.web.vo.MessageTemplateParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.annotation.Target;
 import java.util.Map;
 
 /**
@@ -25,7 +26,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/messageTemplate")
-// @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*")
+@CrossOrigin(origins = "http://127.0.0.1:5500", allowCredentials = "true", allowedHeaders = "*")
 public class MessageTemplateController {
 
     @Autowired
@@ -38,6 +39,22 @@ public class MessageTemplateController {
     public BasicResultVO saveOfUpdate(@RequestBody MessageTemplate messageTemplate){
         return BasicResultVO.success(messageTemplateService.saveOrUpdate(messageTemplate));
     }
+
+    /**
+     * 查询模板列表
+     * @param messageTemplateParam
+     * @return
+     */
+    @GetMapping("/queryTemplateList")
+    public BasicResultVO queryTemplateList(MessageTemplateParam messageTemplateParam){
+        return BasicResultVO.success(messageTemplateService.queryTemplateList(messageTemplateParam));
+    }
+
+    @GetMapping("/query/{id}")
+    public BasicResultVO queryById(@PathVariable("id") Long id){
+        return BasicResultVO.success(messageTemplateService.queryById(id));
+    }
+
 
     /**
      * 测试发送接口

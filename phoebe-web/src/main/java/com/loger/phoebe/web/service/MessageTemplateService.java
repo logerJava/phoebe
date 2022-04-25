@@ -1,8 +1,11 @@
 package com.loger.phoebe.web.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.loger.phoebe.support.domain.MessageTemplate;
+import com.loger.phoebe.web.vo.MessageTemplateParam;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -22,6 +25,20 @@ public interface MessageTemplateService extends IService<MessageTemplate> {
      */
     @Override
     boolean saveOrUpdate(MessageTemplate messageTemplate);
+
+    /**
+     * 查询模板列表
+     * @param messageTemplateParam
+     * @return
+     */
+    Page<MessageTemplate> queryTemplateList(MessageTemplateParam messageTemplateParam);
+
+    /**
+     * 根据 id 查询
+     * @param id
+     * @return
+     */
+    MessageTemplate queryById(Long id);
 
 
 }
