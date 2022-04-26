@@ -35,3 +35,11 @@ phoebe 用于公司内部消息发送等需求场景, 对各类消息进行统�
 - ELK (ElasticSearch + Logstash + Kibana) 视后续情况考虑添加 Filebeat
 - 各类服务商 SDK or API (钉钉, Email, 短信, JPush......)
 - ......
+
+## 使用须知
+目前 phoebe 项目还未成型, 运行需强依赖 MySQL/RocketMQ/Nacos, 请在本地配置好
+
+1. MySQL 我本地使用的是 `8.0.25`, 因为当时去下载没有仔细看, 稳定使用建议更换为 `5.7x`, 要记得修改对应 pom
+2. 使用时在对应 application.yml 中添加自己的相关配置
+3. 执行 sql 文件夹下 phoebe.sql 创建对应表, 插入测试数据
+4. 暂未想好 ...
