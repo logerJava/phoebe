@@ -27,4 +27,6 @@ mybatis-plus:
 rocketmq:
   name-server: 127.0.0.1:9876
   producer:
-    group: phoebe-business
+    group: phoebe_producer_A
+  consumer:
+    group: phoebe_consumer_A
