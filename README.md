@@ -25,7 +25,7 @@ phoebe 用于公司内部消息发送等需求场景, 对各类消息进行统�
 
 ## 涉及技术
 
-- 前端低代码平台 (未定)
+- 前端低代码平台 (amis)
 - SpringBoot
 - Nacos
 - Sentinel (或用 Redis 限流算法实现)
