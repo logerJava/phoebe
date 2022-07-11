@@ -30,7 +30,7 @@ public class PhoebeConstant {
 
     /**
      * businessId默认的长度
-     * 生成的逻辑：com.java3y.austin.support.utils.TaskInfoUtils#generateBusinessId(java.lang.Long, java.lang.Integer)
+     * 生成的逻辑：TaskInfoUtil
      */
     public final static Integer BUSINESS_ID_LENGTH = 16;
 
