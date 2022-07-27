@@ -94,7 +94,7 @@ public class NetEaseSmsSupplier extends BaseSupplierHandler implements SupplierH
 
     /**
      * 获取账号配置
-     * [{"sms_10":{"appkey":"e5bb3c10690f2f16a8f6c7ac3b9c3a5a","appsecret":"6b097fde88c9","templateid":"","url":"https://api.netease.im/sms/sendtemplate.action","supplierId":"1000","supplierName":"网易云信"}},{"sms_20":{"appkey":"e5bb3c10690f2f16a8f6c7ac3b9c3a5a","appsecret":"6b097fde88c9","templateid":"19508986","url":"https://api.netease.im/sms/sendtemplate.action","supplierId":"1000","supplierName":"网易云信"}},{"sms_30":{"appkey":"e5bb3c10690f2f16a8f6c7ac3b9c3a5a","appsecret":"6b097fde88c9","templateid":"","url":"https://api.netease.im/sms/sendcode.action","supplierId":"1000","supplierName":"网易云信"}}]
+     * [{"sms_10":{"appkey":"","appsecret":"","templateid":"","url":"https://api.netease.im/sms/sendtemplate.action","supplierId":"1000","supplierName":"网易云信"}},{"sms_20":{"appkey":"","appsecret":"","templateid":"","url":"https://api.netease.im/sms/sendtemplate.action","supplierId":"1000","supplierName":"网易云信"}},{"sms_30":{"appkey":"","appsecret":"","templateid":"","url":"https://api.netease.im/sms/sendcode.action","supplierId":"1000","supplierName":"网易云信"}}]
      * @param smsParam
      * @return
      */
