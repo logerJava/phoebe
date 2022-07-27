@@ -45,6 +45,7 @@ phoebe 用于公司内部消息发送等需求场景, 对各类消息进行统�
 4. 暂未想好 ...
 
 ## Nacos yml
+
 ```yaml
 email:
  host: 
