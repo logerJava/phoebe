@@ -3,7 +3,7 @@
 
 但考虑到 saas 的实现, 涉及到各个租户的消息推送, 若依旧按照原方案耦合性太大, 无灵活可言
 
-在查阅了很多博客后决定自己撸一套代码, 本着不重复造轮子的原则, 其中大部分借鉴了 3y 的 austin 的实现方式 😉
+在查阅了很多博客后决定自己撸一套代码, 本着不重复造轮子的原则, 其中大部分借鉴了 austin 的实现方式 😉
 
 我觉得 3y 的消息平台整体思路是很完善的, 但本项目较 austin 内部架构变动较大, 毕竟是内部项目的 demo 需要符合实际情况
 
@@ -43,3 +43,19 @@ phoebe 用于公司内部消息发送等需求场景, 对各类消息进行统�
 2. 使用时在对应 application.yml 中添加自己的相关配置
 3. 执行 sql 文件夹下 phoebe.sql 创建对应表, 插入测试数据
 4. 暂未想好 ...
+
+## Nacos yml
+```yaml
+email:
+ host: 
+ port: 
+ auth: 
+ from: 
+ user: 
+ pass: 
+ timeout: 
+ connection-timeout: 
+sms:
+ netease-account: []
+ ali-account: []
+```
