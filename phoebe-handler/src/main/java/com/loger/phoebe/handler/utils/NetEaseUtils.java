@@ -1,5 +1,7 @@
 package com.loger.phoebe.handler.utils;
 
+import org.springframework.http.HttpHeaders;
+
 import java.security.MessageDigest;
 import java.util.Random;
 
@@ -74,7 +76,25 @@ public class NetEaseUtils {
     }
 
     public static Long getCurrentSeconds() {
-        return System.currentTimeMillis()/1000;
+        return System.currentTimeMillis() / 1000;
     }
+
+    public static HttpHeaders getNetEaseAuthHeaders(String appkey, String appsecret, String contentType) {
+
+        String nonce = randomStrBylen(33);
+        Long curTime = getCurrentSeconds();
+        String checkSum = getCheckSum(appsecret, nonce, curTime.toString());
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Content-Type", contentType);
+        httpHeaders.add("AppKey", appkey);
+        httpHeaders.add("Nonce", nonce);
+        httpHeaders.add("CurTime", curTime.toString());
+        httpHeaders.add("CheckSum", checkSum);
+
+        return httpHeaders;
+
+    }
+
 
 }

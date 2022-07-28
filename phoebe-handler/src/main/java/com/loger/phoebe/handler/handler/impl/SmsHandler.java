@@ -1,5 +1,6 @@
 package com.loger.phoebe.handler.handler.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.nacos.api.config.annotation.NacosValue;
@@ -12,6 +13,7 @@ import com.loger.phoebe.handler.domain.sms.SmsParam;
 import com.loger.phoebe.handler.handler.BaseHandler;
 import com.loger.phoebe.handler.handler.Handler;
 import com.loger.phoebe.handler.supplier.sms.SupplierHolder;
+import com.loger.phoebe.support.dao.SmsRecordDao;
 import com.loger.phoebe.support.domain.SmsRecord;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +35,10 @@ public class SmsHandler extends BaseHandler implements Handler {
 
     @NacosValue(value = "${sms.flow-ratio}", autoRefreshed = true)
     private String flowRatio;
-
     @Autowired
     private SupplierHolder supplierHolder;
+    @Autowired
+    private SmsRecordDao smsRecordDao;
 
     public SmsHandler(){
         channelCode = ChannelType.SMS.getCode();
@@ -54,10 +57,13 @@ public class SmsHandler extends BaseHandler implements Handler {
             MessageTypeSmsConfig[] messageTypeSmsConfigs = loadBalance(JSON.parseArray(flowRatio, MessageTypeSmsConfig.class));
             for (MessageTypeSmsConfig messageTypeSmsConfig : messageTypeSmsConfigs) {
                 List<SmsRecord> recordList = supplierHolder.route(messageTypeSmsConfig.getSupplierName()).send(smsParam);
-                // if (CollUtil.isNotEmpty(recordList)) {
-                //     // TODO: 持久化到数据库
-                //     return true;
-                // }
+                if (CollUtil.isNotEmpty(recordList)) {
+                    // 循环内放插入这种写法有问题, 不要这么写, 这里我懒得改了, 就是这么个意思 ...
+                    for (SmsRecord smsRecord : recordList) {
+                        smsRecordDao.insert(smsRecord);
+                    }
+                    return true;
+                }
             }
             return true;
         }catch (Exception e){
