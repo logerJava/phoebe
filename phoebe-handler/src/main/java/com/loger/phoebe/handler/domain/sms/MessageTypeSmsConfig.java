@@ -24,8 +24,8 @@ public class MessageTypeSmsConfig {
     private Integer weights;
 
     /**
-     * script名称
+     * 运营商名称
      */
-    private String scriptName;
+    private String supplierName;
 
 }

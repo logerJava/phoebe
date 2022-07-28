@@ -1,12 +1,13 @@
 package com.loger.phoebe.handler.handler.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.nacos.api.config.annotation.NacosValue;
 import com.google.common.base.Throwables;
 import com.loger.phoebe.common.domain.TaskInfo;
 import com.loger.phoebe.common.dto.model.SmsContentModel;
 import com.loger.phoebe.common.enums.ChannelType;
+import com.loger.phoebe.handler.domain.sms.MessageTypeSmsConfig;
 import com.loger.phoebe.handler.domain.sms.SmsParam;
 import com.loger.phoebe.handler.handler.BaseHandler;
 import com.loger.phoebe.handler.handler.Handler;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author chao
@@ -28,6 +30,9 @@ import java.util.List;
 @Slf4j
 @Component
 public class SmsHandler extends BaseHandler implements Handler {
+
+    @NacosValue(value = "${sms.flow-ratio}", autoRefreshed = true)
+    private String flowRatio;
 
     @Autowired
     private SupplierHolder supplierHolder;
@@ -45,12 +50,15 @@ public class SmsHandler extends BaseHandler implements Handler {
                 .msgType(taskInfo.getMsgType())
                 .build();
         try {
-            // 暂时全用网易云信 TODO:负载和运营商权重分配
-            List<SmsRecord> recordList = supplierHolder.route("NetEaseSmsSupplier").send(smsParam);
-            // if (CollUtil.isNotEmpty(recordList)) {
-            //     // TODO: 持久化到数据库
-            //     return true;
-            // }
+            // 动态流量负载
+            MessageTypeSmsConfig[] messageTypeSmsConfigs = loadBalance(JSON.parseArray(flowRatio, MessageTypeSmsConfig.class));
+            for (MessageTypeSmsConfig messageTypeSmsConfig : messageTypeSmsConfigs) {
+                List<SmsRecord> recordList = supplierHolder.route(messageTypeSmsConfig.getSupplierName()).send(smsParam);
+                // if (CollUtil.isNotEmpty(recordList)) {
+                //     // TODO: 持久化到数据库
+                //     return true;
+                // }
+            }
             return true;
         }catch (Exception e){
             log.error("SmsHandler#handler fail:{},params:{}",
@@ -59,6 +67,44 @@ public class SmsHandler extends BaseHandler implements Handler {
 
         return false;
     }
+
+
+    /**
+     * 流量负载
+     * 根据权重优先顺序取出运营商, 其他作为备份
+     * @param messageTypeSmsConfigs
+     * @return
+     */
+    private static MessageTypeSmsConfig[] loadBalance(List<MessageTypeSmsConfig> messageTypeSmsConfigs) {
+
+        int total = 0;
+        for (MessageTypeSmsConfig channelConfig : messageTypeSmsConfigs) {
+            total += channelConfig.getWeights();
+        }
+
+        // 生成一个随机数[1,total]，看落到哪个区间
+        Random random = new Random();
+        int index = random.nextInt(total) + 1;
+
+        MessageTypeSmsConfig supplier;
+        MessageTypeSmsConfig supplierBack;
+        for (int i = 0; i < messageTypeSmsConfigs.size(); ++i) {
+            if (index <= messageTypeSmsConfigs.get(i).getWeights()) {
+                supplier = messageTypeSmsConfigs.get(i);
+
+                // 取下一个供应商
+                int j = (i + 1) % messageTypeSmsConfigs.size();
+                if (i == j) {
+                    return new MessageTypeSmsConfig[]{supplier};
+                }
+                supplierBack = messageTypeSmsConfigs.get(j);
+                return new MessageTypeSmsConfig[]{supplier, supplierBack};
+            }
+            index -= messageTypeSmsConfigs.get(i).getWeights();
+        }
+        return null;
+    }
+
 
     /**
      * 如果有输入链接，则把链接拼在文案后
