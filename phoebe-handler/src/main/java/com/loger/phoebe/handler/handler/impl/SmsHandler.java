@@ -3,8 +3,10 @@ package com.loger.phoebe.handler.handler.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.nacos.api.config.annotation.NacosValue;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Throwables;
+import com.loger.phoebe.common.constant.PhoebeConstant;
+import com.loger.phoebe.common.constant.SendAccountConstant;
 import com.loger.phoebe.common.domain.TaskInfo;
 import com.loger.phoebe.common.dto.model.SmsContentModel;
 import com.loger.phoebe.common.enums.ChannelType;
@@ -15,6 +17,7 @@ import com.loger.phoebe.handler.handler.Handler;
 import com.loger.phoebe.handler.supplier.sms.SupplierHolder;
 import com.loger.phoebe.support.dao.SmsRecordDao;
 import com.loger.phoebe.support.domain.SmsRecord;
+import com.loger.phoebe.support.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,12 +36,12 @@ import java.util.Random;
 @Component
 public class SmsHandler extends BaseHandler implements Handler {
 
-    @NacosValue(value = "${sms.flow-ratio}", autoRefreshed = true)
-    private String flowRatio;
     @Autowired
     private SupplierHolder supplierHolder;
     @Autowired
     private SmsRecordDao smsRecordDao;
+    @Autowired
+    private ConfigService configService;
 
     public SmsHandler(){
         channelCode = ChannelType.SMS.getCode();
@@ -54,7 +57,9 @@ public class SmsHandler extends BaseHandler implements Handler {
                 .build();
         try {
             // 动态流量负载
-            MessageTypeSmsConfig[] messageTypeSmsConfigs = loadBalance(JSON.parseArray(flowRatio, MessageTypeSmsConfig.class));
+            String flowRatio = configService.getProperty(SendAccountConstant.SMS.WEIGHT_KEY, PhoebeConstant.NACOS_DEFAULT_VALUE_JSON_ARRAY);
+            MessageTypeSmsConfig[] messageTypeSmsConfigs =
+                    loadBalance(JSONObject.parseArray(flowRatio, MessageTypeSmsConfig.class));
             for (MessageTypeSmsConfig messageTypeSmsConfig : messageTypeSmsConfigs) {
                 List<SmsRecord> recordList = supplierHolder.route(messageTypeSmsConfig.getSupplierName()).send(smsParam);
                 if (CollUtil.isNotEmpty(recordList)) {

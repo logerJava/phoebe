@@ -6,5 +6,9 @@ spring:
       discovery:
         server-addr: 127.0.0.1:8848
       config:
-        server-addr: 127.0.0.1:8848
         file-extension: yaml
+        enabled: true
+        server-addr: 127.0.0.1:8848
+        group: TEST_GROUP
+        data-id: platform_config.yaml
+        namespace: 8f593a9f-b4ea-43dc-bd65-4d58665584f8

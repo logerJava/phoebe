@@ -10,6 +10,12 @@ phoebe:
     password: 123456
   business:
     topicName: phoebeBusiness
+  nacos:
+    enabled: true
+    server-addr: 127.0.0.1:8848
+    group: TEST_GROUP
+    data-id: platform_config.yaml
+    namespace: 8f593a9f-b4ea-43dc-bd65-4d58665584f8
 
 spring:
   datasource:
@@ -19,10 +25,6 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   application:
     name: phoebe
-
-nacos:
-  config:
-    server-addr: 127.0.0.1:8848
 
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml

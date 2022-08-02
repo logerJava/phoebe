@@ -10,15 +10,40 @@ package com.loger.phoebe.common.constant;
 public class SendAccountConstant {
 
     /**
-     * 前缀
+     * 邮箱
      */
-    public static final String SMS_PREFIX = "sms_";
+    public static class EMAIL{
+        public static final String PREFIX = "email_";
+        /**
+         * QQ Email
+         */
+        public static final String QQ_ACCOUNT_KEY = "emailQQAccount";
 
-    /* 短信账号code */
+    }
     /**
-     * 网易云信
+     * 短信
      */
-    public static final Integer NETEASE_SMS_CODE = 1000;
+    public static class SMS{
+        /**
+         * 前缀
+         */
+        public static final String PREFIX = "sms_";
+        /**
+         * 权重
+         */
+        public static final String WEIGHT_KEY = "smsFlowRatio";
+        /**
+         * 网易云信
+         */
+        public static final String NETEASE_ACCOUNT_KEY = "smsNetEaseAccount";
+        public static final Integer NETEASE_SMS_CODE = 10;
+        /**
+         * 阿里
+         */
+        public static final String ALI_ACCOUNT_KEY = "smsAliAccount";
+        public static final Integer ALI_SMS_CODE = 20;
+    }
+
 
 
 }

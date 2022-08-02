@@ -24,8 +24,8 @@ public class PhoebeConstant {
     /**
      * apollo默认的值
      */
-    public final static String APOLLO_DEFAULT_VALUE_JSON_OBJECT = "{}";
-    public final static String APOLLO_DEFAULT_VALUE_JSON_ARRAY = "[]";
+    public final static String NACOS_DEFAULT_VALUE_JSON_OBJECT = "{}";
+    public final static String NACOS_DEFAULT_VALUE_JSON_ARRAY = "[]";
 
 
     /**

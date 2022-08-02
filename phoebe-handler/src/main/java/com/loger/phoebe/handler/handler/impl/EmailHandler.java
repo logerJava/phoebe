@@ -2,15 +2,17 @@ package com.loger.phoebe.handler.handler.impl;
 
 import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
-import com.alibaba.nacos.api.config.annotation.NacosValue;
 import com.google.common.base.Throwables;
+import com.loger.phoebe.common.constant.SendAccountConstant;
 import com.loger.phoebe.common.domain.TaskInfo;
 import com.loger.phoebe.common.dto.model.EmailContentModel;
 import com.loger.phoebe.common.enums.ChannelType;
 import com.loger.phoebe.handler.handler.BaseHandler;
 import com.loger.phoebe.handler.handler.Handler;
+import com.loger.phoebe.support.utils.AccountUtils;
 import com.sun.mail.util.MailSSLSocketFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,24 +26,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailHandler extends BaseHandler implements Handler {
 
-    @NacosValue(value = "${email.host}", autoRefreshed = true)
-    private String host;
-    @NacosValue(value = "${email.port}", autoRefreshed = true)
-    private Integer port;
-    @NacosValue(value = "${email.auth}", autoRefreshed = true)
-    private Boolean auth;
-    @NacosValue(value = "${email.from}", autoRefreshed = true)
-    private String from;
-    @NacosValue(value = "${email.user}", autoRefreshed = true)
-    private String user;
-    @NacosValue(value = "${email.pass}", autoRefreshed = true)
-    private String pass;
-    @NacosValue(value = "${email.timeout}", autoRefreshed = true)
-    private Integer timeout;
-    @NacosValue(value = "${email.connection-timeout}", autoRefreshed = true)
-    private Integer connectionTimeout;
+    @Autowired
+    private AccountUtils accountUtils;
 
-    public EmailHandler(){
+    public EmailHandler() {
         channelCode = ChannelType.EMAIL.getCode();
     }
 
@@ -60,27 +48,18 @@ public class EmailHandler extends BaseHandler implements Handler {
     }
 
     private MailAccount getAccountConfig(Integer sendAccount) {
-        MailAccount account = new MailAccount();
-        account.setHost(host);
-        account.setPort(port);
-        account.setAuth(auth);
-        account.setFrom(from);
-        account.setUser(user);
-        // 邮箱授权码
-        account.setPass(pass);
-
+        MailAccount account = accountUtils.getAccount(sendAccount,
+                SendAccountConstant.EMAIL.QQ_ACCOUNT_KEY, SendAccountConstant.EMAIL.PREFIX, MailAccount.class);
         try {
             MailSSLSocketFactory sf = new MailSSLSocketFactory();
             sf.setTrustAllHosts(true);
             account.setAuth(true).setStarttlsEnable(true).setSslEnable(true).setCustomProperty("mail.smtp.ssl.socketFactory", sf);
-            account.setTimeout(timeout).setConnectionTimeout(connectionTimeout);
+            account.setTimeout(26000).setConnectionTimeout(25000);
         } catch (Exception e) {
             log.error("EmailHandler#getAccount fail!{}", Throwables.getStackTraceAsString(e));
         }
-
         return account;
     }
-
 
 
 }

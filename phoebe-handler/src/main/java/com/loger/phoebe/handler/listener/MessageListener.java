@@ -1,6 +1,5 @@
 package com.loger.phoebe.handler.listener;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.loger.phoebe.common.domain.TaskInfo;
